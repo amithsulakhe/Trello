@@ -22,9 +22,17 @@ function generateOtp(length) {
   return otp;
 }
 
+function isOtpExpired(otpTimestamp) {
+  const otpGeneratedTime = new Date(otpTimestamp).getTime();
+  const currentTime = new Date().getTime();
+  const timeDifference = currentTime - otpGeneratedTime;
+
+  return timeDifference > 10 * 60 * 1000;
+}
 module.exports = {
   getUniqueBigINT,
   getUniqueINT,
   getUniqueUUID,
   generateOtp,
+  isOtpExpired,
 };

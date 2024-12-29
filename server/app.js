@@ -13,6 +13,7 @@ require("dotenv").config();
 // db.sequelize.sync({ alter: true }).then(() => {
 //   console.log("altered successfully");
 // });
+
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("deleted and created successfully");
 // });

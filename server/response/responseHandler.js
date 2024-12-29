@@ -13,14 +13,13 @@ const responseHandler = {
   created: (req, res, data) => {
     return res.status(statusCode.created).json({
       success: true,
-      message: "Resource created successfully.",
       data,
     });
   },
-  failure: (req, res, message = "something went wrong") => {
+  failure: (req, res, data) => {
     return res.status(statusCode.badRequest).json({
       success: true,
-      message,
+      data,
     });
   },
   noContent: (req, res) => {
@@ -79,15 +78,10 @@ const responseHandler = {
       data: null,
     });
   },
-  internalServerError: (
-    req,
-    res,
-    message = "An internal server error occurred."
-  ) => {
+  internalServerError: (req, res, data) => {
     return res.status(statusCode.internalServerError).json({
       success: false,
-      message,
-      data: null,
+      data,
     });
   },
   serviceUnavailable: (

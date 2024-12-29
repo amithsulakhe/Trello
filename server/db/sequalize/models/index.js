@@ -12,7 +12,7 @@ db.registerVerification = require("./registerVerifications")(sequelize);
 db.users.belongsTo(db.registerVerification, {
   foreignKey: "uid",
   targetkey: "id",
-  as: "reg_ver",
+  as: "_uid",
 });
 db.users.hasMany(db.registerVerification, {
   foreignKey: "uid",

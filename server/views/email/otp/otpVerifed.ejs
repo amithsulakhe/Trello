@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verification Success</title>
+    <style>
+      :root {
+        --primary-color: #0077b6; /* Professional blue */
+        --secondary-color: #023e8a; /* Darker blue for accents */
+        --text-color: #495057; /* Subtle dark gray for text */
+        --background-color: #f8f9fa; /* Light gray for background */
+        --success-color: #38b000; /* Green for highlights */
+        --border-radius: 12px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        padding: 40px 20px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        background-color: #ffffff;
+        border-radius: var(--border-radius);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+        max-width: 550px;
+        width: 100%;
+        margin: auto;
+      }
+
+      h1 {
+        color: var(--primary-color);
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .message-text {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        color: var(--text-color);
+        line-height: 1.8;
+      }
+
+      .highlight {
+        color: var(--success-color);
+        font-weight: bold;
+      }
+
+      .footer {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e9ecef;
+        text-align: center;
+        font-size: 0.875rem;
+        color: #868e96;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 20px 10px;
+        }
+
+        .container {
+          padding: 1.5rem;
+        }
+
+        h1 {
+          font-size: 1.75rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome, <%= username %>!</h1>
+
+      <p class="message-text">
+        Your account has been successfully verified. You can now start using
+        <span class="highlight">FlowBoard</span> to explore its features and
+        tools.
+      </p>
+
+      <div class="footer">
+        <p>If you have any questions, please contact our support team.</p>
+        <p>© 2024 FlowBoard. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>
