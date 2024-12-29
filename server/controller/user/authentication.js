@@ -8,10 +8,7 @@ const {
   generateOtp,
   isOtpExpired,
 } = require("../../services/common/commonfunction");
-const {
-  sendEmailMailForOtp,
-  sendEmailMailVerified,
-} = require("../../nodemailer/email");
+const { sendEmail, sendEmailMailVerified } = require("../../nodemailer/email");
 
 const register = async (req, res) => {
   const trans = await db.sequelize.transaction();
@@ -63,7 +60,7 @@ const register = async (req, res) => {
       },
     };
 
-    await sendEmailMailForOtp(obj);
+    await sendEmail(obj);
 
     await trans.commit();
     return responseHandler.success(req, res, {
@@ -131,14 +128,14 @@ const validateOtp = async (req, res) => {
       // send to mail otp verified successfully
       const obj = {
         email: isUser.email,
-        template: "/views/email/otp",
+        template: "/views/email/otpVerified",
         subject: "Your Verification",
         data: {
           username: `${isUser.firstName} ${isUser.lastName}`,
         },
       };
 
-      await sendEmailMailVerified(obj);
+      await sendEmail(obj);
 
       return responseHandler.success(req, res, {
         data: updatedUser,
@@ -205,7 +202,7 @@ const resendOtp = async (req, res) => {
       },
     };
 
-    await sendEmailMailForOtp(obj);
+    await sendEmail(obj);
 
     return responseHandler.success(req, res, {
       data: isUser,
