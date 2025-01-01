@@ -1,7 +1,25 @@
 "use client";
 
-import React from "react";
-import { Button } from "./ui/button";
+import { useState, useRef, useEffect } from "react";
+import {
+  ArrowDownNarrowWide,
+  Bell,
+  ChevronDown,
+  ChevronRight,
+  ExternalLink,
+  Grip,
+  LayoutDashboard,
+  MessageCircleQuestion,
+  MoveLeft,
+  Share,
+  Star,
+  Users,
+} from "lucide-react";
+
+import useBoolean from "@/hooks/use-boolean";
+
+import { cn } from "@/lib/utils";
+
 import {
   Tooltip,
   TooltipContent,
@@ -17,28 +35,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import {
-  ArrowDownNarrowWide,
-  Bell,
-  ChevronDown,
-  ChevronRight,
-  ExternalLink,
-  Grip,
-  LayoutDashboard,
-  MessageCircleQuestion,
-  MoveLeft,
-  Share,
-  Star,
-  Users,
-} from "lucide-react";
-import useBoolean from "@/hooks/use-boolean";
 import { Input } from "./ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useState, useRef } from "react";
-import { cn } from "@/lib/utils";
-import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
+import { Button } from "./ui/button";
+import { Switch } from "./ui/switch";
 import ModeSwitcher from "./mode-switcher";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import LogoutComponent from "./logout-component";
 
 const Header = () => {
   const isEnable = useBoolean();
@@ -46,7 +49,7 @@ const Header = () => {
   const [search, setSearch] = useState("");
   const inputRef = useRef(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (inputRef.current && !inputRef.current.contains(event.target)) {
         isEnable.onFalse();
@@ -170,7 +173,7 @@ const Header = () => {
                     <div className="flex flex-col gap-2 ">
                       <DropdownMenuItem className="flex justify-between items-center cursor-pointer">
                         <div className="flex gap-2 items-center">
-                          <div className="rounded-sm w-12 h-9 bg-red-400"></div>
+                          <div className="rounded-sm w-12 h-9 bg-red-400" />
                           <div>
                             <h2 className="font-bold">Design_Team</h2>
                             <p className="text-muted-foreground">
@@ -182,7 +185,7 @@ const Header = () => {
                       </DropdownMenuItem>
                       <DropdownMenuItem className="flex justify-between items-center cursor-pointer">
                         <div className="flex gap-2 items-center">
-                          <div className="rounded-sm w-12 h-9 bg-gradient-to-b bg-red-400"></div>
+                          <div className="rounded-sm w-12 h-9 bg-gradient-to-b bg-red-400" />
                           <div>
                             <h2 className="font-bold">Software Team</h2>
                             <p className="text-muted-foreground">
@@ -216,7 +219,7 @@ const Header = () => {
                     <div className="flex flex-col gap-2 ">
                       <DropdownMenuItem className="flex justify-between items-center cursor-pointer">
                         <div className="flex gap-2 items-center">
-                          <div className="rounded-sm w-12 h-9 bg-red-400"></div>
+                          <div className="rounded-sm w-12 h-9 bg-red-400" />
                           <div>
                             <h2 className="font-bold">Design_Team</h2>
                             <p className="text-muted-foreground">
@@ -228,7 +231,7 @@ const Header = () => {
                       </DropdownMenuItem>
                       <DropdownMenuItem className="flex justify-between items-center cursor-pointer">
                         <div className="flex gap-2 items-center">
-                          <div className="rounded-sm w-12 h-9 bg-gradient-to-b bg-red-400"></div>
+                          <div className="rounded-sm w-12 h-9 bg-gradient-to-b bg-red-400" />
                           <div>
                             <h2 className="font-bold">Software Team</h2>
                             <p className="text-muted-foreground">
@@ -321,7 +324,7 @@ const Header = () => {
                   <TooltipContent>
                     <p>Information</p>
                   </TooltipContent>
-                  <DropdownMenuContent className="w-72 p-4"></DropdownMenuContent>
+                  <DropdownMenuContent className="w-72 p-4" />
                 </DropdownMenu>
               </Tooltip>
             </TooltipProvider>
@@ -407,7 +410,7 @@ const Header = () => {
                       <span className="text-sm">Shortcuts</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator className="my-4" />
-                    <span className="text-sm">Log out</span>
+                    <LogoutComponent />
                   </DropdownMenuContent>
                 </DropdownMenu>
               </Tooltip>

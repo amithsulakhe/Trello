@@ -13,6 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const RegisterPage = () => {
+  console.log("DFsa");
+
   return (
     <Card className="w-[400px]">
       <CardHeader>

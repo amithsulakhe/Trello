@@ -1,13 +1,15 @@
-import Footer from "@/components/footer";
-import Header from "@/components/header";
-import Image from "next/image";
+"use client";
 
-export default function Home({ children }) {
-  return (
-    <div>
-      <Header />
-      <main>{children}</main>
-      <Footer />
-    </div>
-  );
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+export default function Home() {
+  const router = useRouter();
+
+  // redirect to dashboard only
+  useEffect(() => {
+    router.push("/dashboard");
+  }, [router]);
+
+  return null;
 }

@@ -35,11 +35,10 @@ const responseHandler = {
       data: null,
     });
   },
-  unauthorized: (req, res, message = "Unauthorized access.") => {
+  unauthorized: (req, res, data) => {
     return res.status(statusCode.unauthorized).json({
       success: false,
-      message,
-      data: null,
+      data,
     });
   },
   forbidden: (req, res, message = "Access is forbidden.") => {

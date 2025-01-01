@@ -18,6 +18,13 @@ require("dotenv").config();
 //   console.log("deleted and created successfully");
 // });
 
+app.use(
+  cors({
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+  })
+);
+
 //template engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));

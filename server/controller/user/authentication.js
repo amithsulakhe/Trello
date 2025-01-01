@@ -1,4 +1,6 @@
 const db = require("../../db/sequalize/models/index");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const { responseHandler } = require("../../response/responseHandler");
 const {
@@ -23,7 +25,10 @@ const register = async (req, res) => {
     });
 
     if (isEmailAlreadyExisted) {
-      return responseHandler.failure(req, res, "Email already existed");
+      return responseHandler.failure(req, res, {
+        data: null,
+        message: "Email already existed",
+      });
     }
 
     const id_str = getUniqueUUID();
@@ -36,42 +41,16 @@ const register = async (req, res) => {
       transaction: trans,
     });
 
-    const otp = generateOtp(6);
-
-    const registerVerification = await db.registerVerification.create(
-      {
-        uid: createdData.id,
-        ver_code: otp,
-        isverified: false,
-        addedBy: createdData.id,
-      },
-      {
-        transaction: trans,
-      }
-    );
-
-    const obj = {
-      email: createdData.email,
-      template: "/views/email/otp",
-      subject: "Your Otp",
-      data: {
-        code: otp,
-        username: `${createdData.firstName} ${createdData.lastName}`,
-      },
-    };
-
-    await sendEmail(obj);
-
     await trans.commit();
     return responseHandler.success(req, res, {
       data: createdData,
-      message: "Otp Sent successfully",
     });
   } catch (error) {
     await trans.rollback();
     return responseHandler.internalServerError(req, res, {
       data: null,
       message: "Internal Server error",
+      error,
     });
   }
 };
@@ -151,6 +130,7 @@ const validateOtp = async (req, res) => {
     return responseHandler.internalServerError(req, res, {
       data: null,
       message: "Internal Server error",
+      error,
     });
   }
 };
@@ -212,12 +192,87 @@ const resendOtp = async (req, res) => {
     return responseHandler.internalServerError(req, res, {
       data: null,
       message: "Internal Server error",
+      error,
     });
   }
 };
 
+const login = async (req, res) => {
+  try {
+    const dataToCreate = { ...(req.body || {}) };
+
+    const isUser = await db.users.findOne({
+      where: {
+        email: dataToCreate.email,
+      },
+    });
+
+    if (!isUser) {
+      return responseHandler.failure(req, res, {
+        data: null,
+        message: "Invalid Credetials or Mail",
+      });
+    }
+
+    const isPassword = await bcrypt.compare(
+      dataToCreate.password,
+      isUser.password
+    );
+
+    if (!isPassword) {
+      return responseHandler.failure(req, res, {
+        data: null,
+        message: "Invalid Credetials or Mail",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        id: isUser.id,
+        email: isUser.email,
+        firstName: isUser.firstName,
+        lastName: isUser.lastName,
+      },
+      process.env.SECRETKEY,
+      { expiresIn: 10000 } // meaning 10000 seconds
+    );
+
+    return responseHandler.success(req, res, {
+      data: isUser,
+      token,
+    });
+  } catch (error) {
+    return responseHandler.internalServerError(req, res, {
+      data: null,
+      message: "Internal Server error",
+      error,
+    });
+  }
+};
+
+const getUserInfo = async (req, res) => {
+  try {
+    const currentUser = await db.users.findOne({
+      where: {
+        id: req.user.id,
+      },
+    });
+    return responseHandler.success(req, res, {
+      data: currentUser,
+      message: "Successfully response excuted",
+    });
+  } catch (error) {
+    return responseHandler.internalServerError(req, res, {
+      data: null,
+      message: "Internal Server error",
+      error,
+    });
+  }
+};
 module.exports = {
   register,
   validateOtp,
   resendOtp,
+  login,
+  getUserInfo,
 };

@@ -1,15 +1,16 @@
-import React from "react";
+import { useEffect } from "react";
+import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
+
+import useBoolean from "@/hooks/use-boolean";
+
+import { Button } from "./ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import { Button } from "./ui/button";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-import useBoolean from "@/hooks/use-boolean";
-import { useEffect } from "react";
 
 const ModeSwitcher = () => {
   const isMounted = useBoolean();
@@ -17,7 +18,7 @@ const ModeSwitcher = () => {
 
   useEffect(() => {
     isMounted.onTrue();
-  }, []);
+  }, [isMounted]);
 
   if (!isMounted.value) return null;
   const isDark = theme === "dark";
