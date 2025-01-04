@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/hooks/use-auth-context";
+import UniversalLoader from "@/components/universal-loader";
 
 // Separate component to handle search params
 const GuardContent = ({ children }) => {
@@ -29,7 +30,7 @@ const GuardContent = ({ children }) => {
   }, [loading, authenticated]);
 
   if (isChecking) {
-    return <div>Loading...</div>;
+    return <UniversalLoader />;
   }
 
   return <>{children}</>;

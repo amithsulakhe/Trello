@@ -11,8 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import RequiredComponent from "./required-comp";
+import { PasswordInput } from "@/components/ui/password-input";
 
-const RHFTextField = ({ name, label, placeholder, ...other }) => {
+const RHFTextField = ({
+  name,
+  label,
+  placeholder,
+  inputTypePass,
+  ...other
+}) => {
   const { control } = useFormContext();
   return (
     <FormField
@@ -24,7 +31,11 @@ const RHFTextField = ({ name, label, placeholder, ...other }) => {
             <RequiredComponent label={label} />
           </FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} {...field} {...other} />
+            {inputTypePass ? (
+              <PasswordInput placeholder={placeholder} {...field} {...other} />
+            ) : (
+              <Input placeholder={placeholder} {...field} {...other} />
+            )}
           </FormControl>
           <FormMessage />
         </FormItem>

@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, Suspense } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/hooks/use-auth-context";
+import UniversalLoader from "@/components/universal-loader";
 
 // Separate component to handle route protection logic
 const AuthContent = ({ children }) => {
@@ -41,7 +42,7 @@ const AuthContent = ({ children }) => {
   }, [loading, authenticated]);
 
   if (isChecking) {
-    return <div>Loading...</div>;
+    return <UniversalLoader />;
   }
 
   return <>{children}</>;

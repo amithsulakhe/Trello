@@ -8,73 +8,67 @@ import { AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import useBoolean from "@/hooks/use-boolean";
-import { useAuthContext } from "@/hooks/use-auth-context";
-
 import { paths } from "@/utils/constants";
 
+import { setUser } from "@/redux/slices/sign-up-slice";
 import RHFTextField from "@/react-hook-form/rhf-textfield";
 import {
-  loginSchema,
-  loginDefaultValues,
+  registerDefaultValues,
+  registerSchema,
 } from "@/react-hook-form/schema/schema";
 
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Card,
-  CardTitle,
-  CardFooter,
-  CardHeader,
   CardContent,
   CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 
-import { loginWithPassword } from "@/auth/context/jwt/action";
+import { registerWithPassword } from "@/auth/context/jwt/action";
+import useBoolean from "@/hooks/use-boolean";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const isSubmitting = useBoolean();
   const [errorMsg, setErrorMsg] = useState("");
 
-  const { checkUserSession } = useAuthContext();
-  const router = useRouter();
   const dispatch = useDispatch();
 
-  // react hook form
+  const router = useRouter();
+
   const form = useForm({
-    resolver: zodResolver(loginSchema),
-    defaultValues: loginDefaultValues,
+    defaultValues: registerDefaultValues,
+    resolver: zodResolver(registerSchema),
   });
 
-  // onsubmit
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = async (data) => {
     try {
       isSubmitting.onTrue();
-      const isNotVerified = await loginWithPassword({
-        email,
-        password,
-        router,
-        dispatch,
+
+      const response = await registerWithPassword({
+        ...data,
+        isverified: false,
       });
-      if (isNotVerified) {
-        return;
-      }
-      await checkUserSession?.();
-      router.refresh();
+
+      dispatch(setUser(response.data.data.data));
+      router.push(paths.auth.registerSuccess);
     } catch (error) {
-      setErrorMsg(error.data.message);
+      setErrorMsg(error?.data?.message || "Something went wrong");
     } finally {
       isSubmitting.onFalse();
     }
   };
 
   return (
-    <Card className="w-[480px]">
+    <Card className="w-[400px]">
       <CardHeader>
-        <CardTitle>Login Account</CardTitle>
+        <CardTitle>Create Account</CardTitle>
         <CardDescription className="text-muted-foreground text-xs">
-          By logging in, you can start using FlowBoard.
+          By creating Account You will Register into FlowBorad.
         </CardDescription>
       </CardHeader>
 
@@ -88,27 +82,48 @@ const LoginForm = () => {
                 <AlertDescription>{errorMsg}</AlertDescription>
               </Alert>
             )}
-            <div className="grid grid-cols-12 py-4 gap-6">
+            <div className="grid py-4 grid-cols-12 gap-4">
+              <div className="col-span-12">
+                <RHFTextField
+                  name="firstName"
+                  label="First Name"
+                  placeholder="First Name"
+                />
+              </div>
+              <div className="col-span-12">
+                <RHFTextField
+                  name="lastName"
+                  label="Last Name"
+                  placeholder="Last Name"
+                />
+              </div>
               <div className="col-span-12">
                 <RHFTextField name="email" label="Email" placeholder="Email" />
               </div>
-
               <div className="col-span-12">
                 <RHFTextField
                   name="password"
                   label="Password"
-                  placeholder="Password"
                   inputTypePass
+                  placeholder="Password"
+                />
+              </div>
+              <div className="col-span-12">
+                <RHFTextField
+                  name="confirmPassword"
+                  inputTypePass
+                  label="Confirm Password"
+                  placeholder="Confirm Password"
                 />
               </div>
               <div className="col-span-12">
                 <span className="text-sm text-muted-foreground">
-                  Dont haven&apos;t account?{" "}
+                  Dont have an account?{" "}
                   <Link
                     className="text-blue-400 underline"
-                    href={paths.auth.register}
+                    href={paths.auth.login}
                   >
-                    Register
+                    Login
                   </Link>
                 </span>
               </div>
@@ -120,7 +135,7 @@ const LoginForm = () => {
               className="w-full"
               type="submit"
             >
-              Login
+              Create Account
             </Button>
           </CardFooter>
         </form>
@@ -129,4 +144,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

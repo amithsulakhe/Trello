@@ -3,7 +3,7 @@ const router = require("express").Router();
 const authRoutes = require("../../controller/user/authentication");
 const {
   checkUserAuthenticated,
-} = require("../../services/common/commonfunction");
+} = require("../../middlewares/check-user-session");
 
 router.route("/register").post(authRoutes.register);
 

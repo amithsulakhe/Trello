@@ -12,6 +12,7 @@ export function jwtDecode(token) {
 
     const base64Url = parts[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+
     const decoded = JSON.parse(atob(base64));
 
     return decoded;
@@ -27,6 +28,7 @@ export function tokenExpired(exp) {
 
   setTimeout(() => {
     try {
+      alert("Token expired!");
       localStorage.removeItem(STORAGE_KEY);
       window.location.href = "/login";
     } catch (error) {
@@ -47,7 +49,8 @@ export function isValidToken(token) {
     if (!decoded || !("exp" in decoded)) {
       return false;
     }
-
+    // decoded.exp which is in seconds
+    // Date.now() / 1000; // current time in seconds
     const currentTime = Date.now() / 1000;
 
     return decoded.exp > currentTime;
@@ -64,7 +67,7 @@ export async function setSession(token) {
 
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-      const decodedToken = jwtDecode(token); // ~3 days by minimals server
+      const decodedToken = jwtDecode(token); // jwt exp time 10000 seconds in backend 2hr 46min
 
       if (decodedToken && "exp" in decodedToken) {
         tokenExpired(decodedToken.exp);

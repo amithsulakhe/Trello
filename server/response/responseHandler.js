@@ -6,7 +6,6 @@ const responseHandler = {
   success: (req, res, data) => {
     return res.status(statusCode.success).json({
       success: true,
-      message: "Request processed successfully.",
       data,
     });
   },

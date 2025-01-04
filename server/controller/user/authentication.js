@@ -210,7 +210,7 @@ const login = async (req, res) => {
     if (!isUser) {
       return responseHandler.failure(req, res, {
         data: null,
-        message: "Invalid Credetials or Mail",
+        message: "Email does not exist",
       });
     }
 
@@ -228,10 +228,10 @@ const login = async (req, res) => {
 
     const token = jwt.sign(
       {
-        id: isUser.id,
-        email: isUser.email,
-        firstName: isUser.firstName,
-        lastName: isUser.lastName,
+        id: isUser.id_str,
+        // email: isUser.email,
+        // firstName: isUser.firstName,
+        // lastName: isUser.lastName,
       },
       process.env.SECRETKEY,
       { expiresIn: 10000 } // meaning 10000 seconds
@@ -254,7 +254,7 @@ const getUserInfo = async (req, res) => {
   try {
     const currentUser = await db.users.findOne({
       where: {
-        id: req.user.id,
+        id_str: req.user.id,
       },
     });
     return responseHandler.success(req, res, {

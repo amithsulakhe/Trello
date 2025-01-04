@@ -2,7 +2,7 @@ const express = require("express");
 const { getAllUsers } = require("../../controller/user/user");
 const {
   checkUserAuthenticated,
-} = require("../../services/common/commonfunction");
+} = require("../../middlewares/check-user-session");
 
 const router = express.Router();
 

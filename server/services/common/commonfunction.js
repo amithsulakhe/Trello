@@ -29,29 +29,13 @@ function isOtpExpired(otpTimestamp) {
   const currentTime = new Date().getTime();
   const timeDifference = currentTime - otpGeneratedTime;
 
-  return timeDifference > 10 * 60 * 1000;
+  return timeDifference > 1 * 60 * 1000;
 }
 
-const checkUserAuthenticated = (req, res, next) => {
-  try {
-    const token = req.headers.authorization.split(" ")[1];
-    const user = jwt.verify(token, process.env.SECRETKEY);
-    if (user) {
-      req.user = user;
-      next();
-    }
-  } catch (error) {
-    return responseHandler.unauthorized(req, res, {
-      data: null,
-      message: "Unauthorized access.",
-    });
-  }
-};
 module.exports = {
   getUniqueBigINT,
   getUniqueINT,
   getUniqueUUID,
   generateOtp,
   isOtpExpired,
-  checkUserAuthenticated,
 };

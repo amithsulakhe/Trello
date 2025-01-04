@@ -1,13 +1,14 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useMemo, useState, useCallback } from "react";
 
 import axiosInstance, { endpoints } from "@/utils/axios";
 
-import { AuthContext } from "../auth-context";
+import { dispatch as reduxDispatch } from "@/redux/store";
+
 import { STORAGE_KEY } from "./constant";
-import { isValidToken, setSession } from "./utils";
+import { AuthContext } from "../auth-context";
+import { setSession, isValidToken } from "./utils";
 
 const AuthProvider = ({ children }) => {
   const [state, setState] = useState({
@@ -38,6 +39,8 @@ const AuthProvider = ({ children }) => {
         });
       }
     } catch (error) {
+      reduxDispatch({ type: "LOG_OUT" });
+
       setState({
         user: null,
         loading: false,

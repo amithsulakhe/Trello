@@ -1,8 +1,13 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+
+import { Inter } from "next/font/google";
+
+import { StoreProvider } from "@/redux/provider/StoreProvider";
+
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/theme-provider";
 import OfflineOnlineProvider from "@/components/offline-online-provider";
+
 import AuthProvider from "@/auth/context/jwt/auth-provider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,23 +21,25 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <OfflineOnlineProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <Toaster
-                position="top-right"
-                richColors // More vibrant colors
-                closeButton // Add close button
-              />
-              {children}
-            </ThemeProvider>
-          </OfflineOnlineProvider>
-        </AuthProvider>
+        <StoreProvider>
+          <AuthProvider>
+            <OfflineOnlineProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="dark"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Toaster
+                  position="top-right"
+                  richColors // More vibrant colors
+                  closeButton // Add close button
+                />
+                {children}
+              </ThemeProvider>
+            </OfflineOnlineProvider>
+          </AuthProvider>
+        </StoreProvider>
       </body>
     </html>
   );
