@@ -247,9 +247,9 @@ const SidebarTrigger = React.forwardRef(
         // variant="outline"
         size="icon"
         className={cn(
-          "h-7 w-7 bg-[#505863] text-white hover:bg-[#505863] rounded-full",
-          className,
-          !open ? "" : "hidden"
+          "h-7 w-7",
+          className
+          // !open ? "" : "hidden"
         )}
         onClick={(event) => {
           onClick?.(event);

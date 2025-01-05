@@ -3,12 +3,16 @@ import {
   Calendar,
   ChevronLeft,
   CircleUser,
+  Ellipsis,
   FolderKanban,
   Home,
   Inbox,
+  MoreHorizontal,
+  Plus,
   Search,
   Settings,
   SquareUser,
+  Table,
   UserRound,
 } from "lucide-react";
 
@@ -16,13 +20,24 @@ import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
+  SidebarGroupAction,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 // Menu items.
 const items = [
@@ -103,35 +118,34 @@ const items = [
   },
 ];
 
-export function AppSidebar({ setOpen }) {
+export function AppSidebar() {
+  const { state, open, openMobile, setOpenMobile, isMobile, toggleSidebar } =
+    useSidebar();
+
+  console.log(open);
+
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <div className="flex justify-between p-2 items-center">
-                  <div className="flex gap-3 cursor-pointer">
-                    <div className="grid place-items-center rounded-sm w-10 h-10 bg-gradient-to-b from-green-300 to-green-500">
-                      <span className="text-black text-xl font-bold">T</span>
-                    </div>
+                <div
+                  className={cn(
+                    "flex gap-3  cursor-pointer",
+                    open ? "p-2" : "p-0"
+                  )}
+                >
+                  <div className="grid place-items-center rounded-sm w-10 h-10 bg-gradient-to-b from-green-300 to-green-500">
+                    <span className="text-black text-xl font-bold">T</span>
+                  </div>
+                  {open && (
                     <div className="flex flex-col gap-1">
                       <h3>Trello Workspace</h3>
                       <p className="text-xs">Premium</p>
                     </div>
-                  </div>
-                  <div
-                  // className="absolute inset-y-4 left-14"
-                  >
-                    <Button
-                      onClick={() => setOpen((prev) => !prev)}
-                      variant="outline"
-                      size="icon"
-                    >
-                      <ChevronLeft />
-                    </Button>
-                  </div>
+                  )}
                 </div>
                 <SidebarSeparator />
               </SidebarMenuItem>
@@ -157,6 +171,38 @@ export function AppSidebar({ setOpen }) {
                   <Link href={"/"}>
                     <Settings />
                     <span>Workspace Settings</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-sm">
+            Workspace views
+          </SidebarGroupLabel>
+          <SidebarGroupAction title="Add Project">
+            <Plus /> <span className="sr-only">Add Project</span>
+          </SidebarGroupAction>
+          {/* <SidebarGroupAction title="Add Project">
+            <Ellipsis /> <span className="sr-only">Add Project</span>
+          </SidebarGroupAction> */}
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href={"/"}>
+                    <Table />
+                    <span>Table</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href={"/"}>
+                    <Calendar />
+                    <span>Calender</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

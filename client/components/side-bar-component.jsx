@@ -13,10 +13,7 @@ const SideBarComponent = ({ children }) => {
     <SidebarProvider open={open} onOpenChange={setOpen}>
       <AppSidebar setOpen={setOpen} />
       <SidebarTrigger open={open} />
-      <main className="w-full p-4">
-        {children}
-        <Footer />
-      </main>
+      <main className="w-full p-4">{children}</main>
     </SidebarProvider>
   );
 };
