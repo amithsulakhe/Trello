@@ -5,5 +5,12 @@ export const metadata = {
 };
 
 export default function DashboardPage() {
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      <div className="grid grid-cols-12">
+        {/* <div className="col-span-12 h-4 bg-red-500"></div>
+        <div className="col-span-12 h-4 bg-red-500"></div> */}
+      </div>
+    </div>
+  );
 }

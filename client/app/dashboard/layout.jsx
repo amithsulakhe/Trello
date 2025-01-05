@@ -1,13 +1,13 @@
 import { AuthGuard } from "@/auth/guard/auth-guard";
-import Footer from "@/components/footer";
+
 import Header from "@/components/header";
+import SideBarComponent from "@/components/side-bar-component";
 
 const Layout = ({ children }) => (
   <div>
     <AuthGuard>
       <Header />
-      <main>{children}</main>
-      <Footer />
+      <SideBarComponent>{children}</SideBarComponent>
     </AuthGuard>
   </div>
 );
